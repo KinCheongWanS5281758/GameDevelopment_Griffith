@@ -1310,6 +1310,7 @@ MonoBehaviour:
   - 'Aether: The game?'
   - 'Aether: Goodbye world'
   - 'Aether: Ok'
+  - 'Aether: Start Game'
   canvasObject: {fileID: 1114616352}
 --- !u!114 &1954608967
 MonoBehaviour:
