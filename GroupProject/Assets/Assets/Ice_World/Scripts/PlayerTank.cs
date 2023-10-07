@@ -40,7 +40,7 @@ public class PlayerTank : MonoBehaviour
             // Mark the ice crystal as spawned
             iceCrystalSpawned = true;
 
-            scoreText.text = "Ice Crystal Spawn! Grab it";
+            scoreText.text = "Ice Crystal Spawn! Grab it!";
         }
     }
 
