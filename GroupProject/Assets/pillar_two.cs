@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class pillar_two : MonoBehaviour
 {
     public int pillarHP = 100; // The health of the pillar
-    public float innerDamageMultiplier = 5.0f; // Damage multiplier for inner zone
-    public float outerDamageMultiplier = 2.0f; // Damage multiplier for outer zone
+    public int innerDamageMultiplier = 7; // Damage multiplier for inner zone
+    public int outerDamageMultiplier = 5; // Damage multiplier for outer zone
+    public int initialHP = 100;
 
     // Define the radii for the inner and outer zones
     public float innerZoneRadius = 25.0f;
@@ -22,13 +26,14 @@ public class pillar_two : MonoBehaviour
     private PillarState currentState = PillarState.Idle;
     private float damageCooldown = 1.0f;
     private float damageTimer = 0.0f;
+    private Transform playerTransform;
+    private float distanceToPillar;
 
-    private Transform playerTransform; // Reference to the player's transform
-    private float distanceToPillar; // Declare the distanceToPillar variable here
+    public Image hpBarImage; // Reference to the HP bar UI Image
+    private float originalHPBarWidth; // Store the original size of the HP bar
 
     private void OnDrawGizmosSelected()
     {
-        // Draw Gizmos to visualize the trigger zones
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, innerZoneRadius);
 
@@ -38,22 +43,24 @@ public class pillar_two : MonoBehaviour
 
     private void Start()
     {
-        // Find and store a reference to the player's transform
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             playerTransform = player.transform;
         }
+
+        // Initialize the HP bar
+        originalHPBarWidth = hpBarImage.rectTransform.sizeDelta.x;
+        UpdateHPBar();
     }
 
     private void Update()
     {
-        distanceToPillar = Vector3.Distance(transform.position, playerTransform.position); // Calculate the distance here
+        distanceToPillar = Vector3.Distance(transform.position, playerTransform.position);
 
         switch (currentState)
         {
             case PillarState.Idle:
-                // Check if the player is within the inner or outer zone
                 if (playerTransform != null)
                 {
                     if (distanceToPillar <= innerZoneRadius)
@@ -68,22 +75,20 @@ public class pillar_two : MonoBehaviour
                 break;
 
             case PillarState.Damaging:
-                // Apply damage only once every second
                 damageTimer += Time.deltaTime;
                 if (damageTimer >= damageCooldown)
                 {
                     if (distanceToPillar <= innerZoneRadius)
                     {
-                        TakeDamage(2); // Apply 2 damage if player is in the inner zone
+                        TakeDamage(innerDamageMultiplier);
                     }
                     else if (distanceToPillar <= outerZoneRadius)
                     {
-                        TakeDamage(1); // Apply 1 damage if player is in the outer zone
+                        TakeDamage(outerDamageMultiplier);
                     }
-                    damageTimer = 0.0f; // Reset the timer
+                    damageTimer = 0.0f;
                 }
 
-                // Check if the player is no longer within the inner or outer zone
                 if (distanceToPillar > outerZoneRadius)
                 {
                     currentState = PillarState.Idle;
@@ -92,7 +97,6 @@ public class pillar_two : MonoBehaviour
         }
     }
 
-    // Function to handle damage to the pillar
     public void TakeDamage(int damage)
     {
         pillarHP -= damage;
@@ -102,5 +106,17 @@ public class pillar_two : MonoBehaviour
             // Handle pillar destruction (e.g., disable the pillar or play a destruction animation)
             Destroy(gameObject);
         }
+
+        // Update the HP bar
+        UpdateHPBar();
+    }
+
+    private void UpdateHPBar()
+    {
+        float fillAmount = (float)pillarHP / (float)initialHP;
+        hpBarImage.fillAmount = fillAmount;
+
+        // Update the HP bar's width
+        hpBarImage.rectTransform.sizeDelta = new Vector2(originalHPBarWidth * fillAmount, hpBarImage.rectTransform.sizeDelta.y);
     }
 }
