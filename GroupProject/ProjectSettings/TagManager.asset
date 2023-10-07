@@ -9,6 +9,8 @@ TagManager:
   - EnemyTank
   - Bullet
   - IceCrystal
+  - PatrolPoint
+  - PuzzlePiece
   layers:
   - Default
   - TransparentFX
