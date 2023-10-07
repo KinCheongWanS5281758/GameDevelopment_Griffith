@@ -12694,6 +12694,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 855561bd24a0f4655b1f8f4d1fed2f3b, type: 3}
+      propertyPath: curState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 855561bd24a0f4655b1f8f4d1fed2f3b, type: 3}
       propertyPath: waypointList.Array.size
       value: 4
       objectReference: {fileID: 0}
