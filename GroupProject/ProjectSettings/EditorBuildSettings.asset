@@ -9,12 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 456f898f9b39b5e4fb61a67efc75d20e
   - enabled: 1
+    path: Assets/Scenes/Opening.unity
+    guid: db08e831c9f62e145ba23d3fd3b68aa9
+  - enabled: 1
     path: Assets/Scenes/MainWorld.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/IceWorld.unity
-    guid: c2a9205518573f344b27c325fad1f610
+    guid: 40a7bdf6868a2014f851d8d9738382ed
   - enabled: 1
     path: Assets/Scenes/FireWorld.unity
     guid: 7205a7b0023ec1f48977d6822e31280b
+  - enabled: 1
+    path: Assets/Scenes/FinalBoss.unity
+    guid: dc1ac2273395c27409122b9033614109
   m_configObjects: {}

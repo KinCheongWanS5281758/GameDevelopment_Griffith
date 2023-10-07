@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerTank : MonoBehaviour
 {
     public float moveSpeed = 20.0f; // units per second
@@ -22,6 +23,26 @@ public class PlayerTank : MonoBehaviour
 
     // Coins instead of Ammo
     public int coins = 0;
+    // spawn ice crystal
+    private bool iceCrystalSpawned = false;
+    // prefab of ice crystal
+    public GameObject iceCrystalPrefab;
+
+    // Check for ice crystal collection
+    private void CheckIceCrystalCollection()
+    {
+        if (coins >= 9 && !iceCrystalSpawned)
+        {
+            // Spawn the ice crystal at a specific position
+            Vector3 spawnPosition = new Vector3(-77f, 7f, 25.8f); 
+            Instantiate(iceCrystalPrefab, spawnPosition, Quaternion.identity);
+
+            // Mark the ice crystal as spawned
+            iceCrystalSpawned = true;
+
+            scoreText.text = "Ice Crystal Spawn! Grab it";
+        }
+    }
 
     // Use this for initialization
     void Start()
@@ -51,6 +72,9 @@ public class PlayerTank : MonoBehaviour
             // Player dies, reload the scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+
+        // check for ice crystal
+        CheckIceCrystalCollection();
     }
 
     // Apply Damage if hit by bullet
@@ -85,7 +109,7 @@ public class PlayerTank : MonoBehaviour
         // Update the GUI to show the number of coins
         if (scoreText)
         {
-            scoreText.text = coins.ToString() + "/7";
+            scoreText.text = coins.ToString() + "/9";
         }
     }
 }
