@@ -2,29 +2,28 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 
-public class SimpleFSM : MonoBehaviour 
+public class SimpleFSM : MonoBehaviour
 {
-    public enum FSMState
-    {
-        None,
-        Patrol,
-        Chase,
-        Attack,
-        Dead,
-    }
+	public enum FSMState
+	{
+		None,
+		Patrol,
+		Chase,
+		Attack,
+	}
 
 	// Current state that the NPC is reaching
 	public FSMState curState;
 
 	protected Transform playerTransform;// Player Transform
-	
+
 	public GameObject[] waypointList; // List of waypoints for patrolling
 
 	// Turret
 	public GameObject turret;
 	public float turretRotSpeed = 4.0f;
-	
-    // Bullet
+
+	// Bullet
 	public GameObject bullet;
 	public GameObject bulletSpawnPoint;
 
@@ -32,18 +31,15 @@ public class SimpleFSM : MonoBehaviour
 	public float shootRate = 3.0f;
 	protected float elapsedTime;
 
-    // Whether the NPC is destroyed or not
-    protected bool bDead;
-    public int health = 100;
+	// Whether the NPC is destroyed or not
+	protected bool bDead;
+	public int health = 100;
 
 	// Ranges for chase and attack
 	public float chaseRange = 35.0f;
 	public float attackRange = 20.0f;
 	public float attackRangeMin = 10.0f;
 
-	public GameObject explosion;
-	public GameObject smokeTrail;
-	
 	private NavMeshAgent nav;
 
 	// current waypoint in list
@@ -58,19 +54,20 @@ public class SimpleFSM : MonoBehaviour
 	/*
      * Initialize the Finite state machine for the NPC tank
      */
-	void Start() {
+	void Start()
+	{
 
-        curState = FSMState.Patrol;
+		curState = FSMState.Patrol;
 
-        bDead = false;
-        elapsedTime = 0.0f;
+		bDead = false;
+		elapsedTime = 0.0f;
 
-        // Get the target enemy(Player)
-        objPlayer = GameObject.FindGameObjectWithTag("Player");
-        playerTransform = objPlayer.transform;
+		// Get the target enemy(Player)
+		objPlayer = GameObject.FindGameObjectWithTag("Player");
+		playerTransform = objPlayer.transform;
 
-        if(!playerTransform)
-            print("Player doesn't exist.. Please add one with Tag named 'Player'");
+		if (!playerTransform)
+			print("Player doesn't exist.. Please add one with Tag named 'Player'");
 
 		//reference the navmeshagent so we can access it
 		nav = GetComponent<NavMeshAgent>();
@@ -84,33 +81,34 @@ public class SimpleFSM : MonoBehaviour
 	}
 
 
-    // Update each frame
-    void Update() {
-        switch (curState) {
-            case FSMState.Patrol: UpdatePatrolState(); break;
-            case FSMState.Chase: UpdateChaseState(); break;
-            case FSMState.Attack: UpdateAttackState(); break;
-            case FSMState.Dead: UpdateDeadState(); break;
-        }
+	// Update each frame
+	void Update()
+	{
+		switch (curState)
+		{
+			case FSMState.Patrol: UpdatePatrolState(); break;
+			case FSMState.Chase: UpdateChaseState(); break;
+			case FSMState.Attack: UpdateAttackState(); break;
+		}
 
-        // Update the time
-        elapsedTime += Time.deltaTime;
+		// Update the time
+		elapsedTime += Time.deltaTime;
 		elapsedPathCheckTime += Time.deltaTime;
 
-        // Go to dead state if no health left
-        if (health <= 0)
-            curState = FSMState.Dead;
-    }
+	}
 
 	/*
      * Patrol state
      */
-    protected void UpdatePatrolState() {
-        
+	protected void UpdatePatrolState()
+	{
+
 		// only move if there are waypoints in list for object
-		if (curWaypoint > -1) {
+		if (curWaypoint > -1)
+		{
 			// check if close to current waypoint
-			if (Vector3.Distance(transform.position, waypointList[curWaypoint].gameObject.transform.position) <= 2.0f) {
+			if (Vector3.Distance(transform.position, waypointList[curWaypoint].gameObject.transform.position) <= 2.0f)
+			{
 				// get next waypoint
 				curWaypoint++;
 				// if we have travelled to last waypoint, go back to the first
@@ -120,25 +118,28 @@ public class SimpleFSM : MonoBehaviour
 				setDest = false;
 			}
 
-			if (!setDest) {
+			if (!setDest)
+			{
 				// NavMeshAgent move
 				nav.SetDestination(waypointList[curWaypoint].gameObject.transform.position);
 				setDest = true;
 			}
 
 			// Turn the turret to face the direction of travel
-			if (turret) {
-				if (transform.forward != turret.transform.forward) {
+			if (turret)
+			{
+				if (transform.forward != turret.transform.forward)
+				{
 					Quaternion turretRotation = Quaternion.LookRotation(transform.forward - turret.transform.forward);
-					turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, turretRotation, Time.deltaTime * turretRotSpeed); 
+					turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, turretRotation, Time.deltaTime * turretRotSpeed);
 				}
 			}
 		}
 
-        // Check the distance with player tank
-        // When the distance is near, transition to chase state
-		if(objPlayer != null)
-        {
+		// Check the distance with player tank
+		// When the distance is near, transition to chase state
+		if (objPlayer != null)
+		{
 			if (Vector3.Distance(transform.position, playerTransform.position) <= chaseRange)
 			{
 
@@ -152,18 +153,19 @@ public class SimpleFSM : MonoBehaviour
 					}
 				}
 			}
-        }
-        
-    }
+		}
+
+	}
 
 
-    /*
+	/*
      * Chase state
 	 */
-    protected void UpdateChaseState() {
+	protected void UpdateChaseState()
+	{
 
-		if(objPlayer != null)
-        {
+		if (objPlayer != null)
+		{
 			// NavMeshAgent move
 			if (elapsedPathCheckTime >= pathCheckTime)
 			{
@@ -195,21 +197,22 @@ public class SimpleFSM : MonoBehaviour
 				setDest = false;
 			}
 		}
-        else
-        {
+		else
+		{
 			curState = FSMState.Patrol;
-        }
-		
+		}
+
 	}
-	
+
 
 	/*
 	 * Attack state
 	 */
-    protected void UpdateAttackState() {
+	protected void UpdateAttackState()
+	{
 
-		if(objPlayer != null)
-        {
+		if (objPlayer != null)
+		{
 			// Check the distance with the player tank
 			float dist = Vector3.Distance(transform.position, playerTransform.position);
 			if (dist >= attackRangeMin && dist <= attackRange)
@@ -252,78 +255,39 @@ public class SimpleFSM : MonoBehaviour
 				}
 			}
 		}
-        else
-        {
+		else
+		{
 			curState = FSMState.Patrol;
-        }
-		
-    }
+		}
+
+	}
 
 
-    /*
-     * Dead state
-     */
-    protected void UpdateDeadState() {
-        // Show the dead animation with some physics effects
-        if (!bDead) {
-			nav.isStopped = true;
-			nav.enabled = false;
-            bDead = true;
-            Explode();
-
-			// add to player score
-			playerTransform.gameObject.SendMessage("UpdateScore", (int) 100 );
-        }
-    }
-
-
-    /*
+	/*
      * Shoot Bullet
      */
-    private void ShootBullet() {
-        if (elapsedTime >= shootRate) {
-			if ((bulletSpawnPoint) & (bullet)) {
-            	// Shoot the bullet
-            	Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+	private void ShootBullet()
+	{
+		if (elapsedTime >= shootRate)
+		{
+			if ((bulletSpawnPoint) & (bullet))
+			{
+				// Shoot the bullet
+				Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
 			}
-            elapsedTime = 0.0f;
-        }
-    }
-
-    // Apply Damage if hit by bullet
-    public void ApplyDamage(int damage ) {
-    	health -= damage;
-    }
-
-
-    protected void Explode() {
-        float rndX = Random.Range(8.0f, 12.0f);
-        float rndZ = Random.Range(8.0f, 12.0f);
-
-		GetComponent<Rigidbody>().angularDrag = 0.05f;
-		GetComponent<Rigidbody>().drag = 0.05f;
-
-        for (int i = 0; i < 3; i++) {
-            GetComponent<Rigidbody>().AddExplosionForce(10.0f, transform.position - new Vector3(rndX, 2.0f, rndZ), 45.0f, 40.0f);
-            GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3(rndX, 10.0f, rndZ));
-        }
-
-		if (smokeTrail) {
-			GameObject clone = Instantiate(smokeTrail, transform.position, transform.rotation) as GameObject;
-			clone.transform.parent = transform;
+			elapsedTime = 0.0f;
 		}
-		Invoke ("CreateFinalExplosion", 1.4f);
-		Destroy(gameObject, 1.5f);
 	}
-	
-	
-	protected void CreateFinalExplosion() {
-		if (explosion) 
-			Instantiate(explosion, transform.position, transform.rotation);
+
+	// Apply Damage if hit by bullet
+	public void ApplyDamage(int damage)
+	{
+		health -= damage;
 	}
 
 
-	void OnDrawGizmos () {
+	void OnDrawGizmos()
+	{
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, chaseRange);
 
