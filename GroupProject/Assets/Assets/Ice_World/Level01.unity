@@ -5852,6 +5852,7 @@ MonoBehaviour:
   healthbar: {fileID: 1759377599}
   scoreText: {fileID: 2018312214}
   coins: 0
+  iceCrystalPrefab: {fileID: 0}
 --- !u!1 &721417263
 GameObject:
   m_ObjectHideFlags: 0

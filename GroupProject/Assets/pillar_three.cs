@@ -16,6 +16,8 @@ public class pillar_three : MonoBehaviour
     public float innerZoneRadius = 20.0f;
     public float outerZoneRadius = 35.0f;
 
+    private bool hasHealedPlayer = false;
+
     // Define states for the pillar's behavior
     private enum PillarState
     {
@@ -31,6 +33,9 @@ public class pillar_three : MonoBehaviour
 
     public Image hpBarImage; // Reference to the HP bar UI Image
     private float originalHPBarWidth; // Store the original size of the HP bar
+
+    public AudioSource hitSound;
+    public AudioSource breakSound;
 
     private void OnDrawGizmosSelected()
     {
@@ -95,16 +100,37 @@ public class pillar_three : MonoBehaviour
                 }
                 break;
         }
+
+        // send pillar HP msg to the player
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            // Send a message to the player object
+            player.SendMessage("ReceivePillarThreeHP", pillarHP);
+        }
     }
 
     public void TakeDamage(int damage)
     {
         pillarHP -= damage;
 
+        if (pillarHP <= 0 && !hasHealedPlayer)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.SendMessage("HealPlayer", 50);
+            hasHealedPlayer = true;
+        }
+
         if (pillarHP <= 0)
         {
-            // Handle pillar destruction (e.g., disable the pillar or play a destruction animation)
+
+            // Handle pillar destruction
+            breakSound.Play();
             Destroy(gameObject);
+        }
+        else
+        {
+            hitSound.Play();
         }
 
         // Update the HP bar

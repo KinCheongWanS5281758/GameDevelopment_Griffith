@@ -27,8 +27,13 @@ public class pillar_one : MonoBehaviour
     private Transform playerTransform;
     private float distanceToPillar;
 
-    public Image hpBarImage; // Reference to the HP bar UI Image
-    private float originalHPBarWidth; // Store the original size of the HP bar
+    public Image hpBarImage; 
+    private float originalHPBarWidth;
+
+    public AudioSource hitSound;
+    public AudioSource breakSound;
+
+    private bool hasHealedPlayer = false;
 
     private void OnDrawGizmosSelected()
     {
@@ -93,16 +98,37 @@ public class pillar_one : MonoBehaviour
                 }
                 break;
         }
+
+        // send pillar HP msg to the player
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            // Send a message to the player object
+            player.SendMessage("ReceivePillarOneHP", pillarHP);
+        }
     }
 
     public void TakeDamage(int damage)
     {
         pillarHP -= damage;
 
+        if (pillarHP <= 0 && !hasHealedPlayer)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.SendMessage("HealPlayer", 50);
+            hasHealedPlayer = true;
+        }
+
         if (pillarHP <= 0)
         {
-            // Handle pillar destruction (e.g., disable the pillar or play a destruction animation)
+
+            // Handle pillar destruction
+            breakSound.Play();
             Destroy(gameObject);
+        }
+        else
+        {
+            hitSound.Play();
         }
 
         // Update the HP bar

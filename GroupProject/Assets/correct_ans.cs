@@ -5,6 +5,7 @@ using UnityEngine;
 public class correct_ans : MonoBehaviour
 {
     public GameObject walls;
+    public AudioSource pickupSound;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,10 @@ public class correct_ans : MonoBehaviour
         Debug.Log(col.gameObject.tag);
         if (col.gameObject.tag == "Player")
         {
+            if (pickupSound != null)
+            {
+                pickupSound.Play();
+            }
             Destroy(walls);
         }
     }

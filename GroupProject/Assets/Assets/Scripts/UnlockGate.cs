@@ -7,6 +7,7 @@ public class UnlockGate : MonoBehaviour
     // Adjustable Rotate Speed
     public float rotationSpeed = 60.0f;
     public GameObject Wall;
+    public AudioSource pickupSound;
 
     void Update()
     {
@@ -21,6 +22,10 @@ public class UnlockGate : MonoBehaviour
         {
             // make object disappear...
             Destroy(Wall);
+            if (pickupSound != null)
+            {
+                pickupSound.Play();
+            }
             gameObject.SetActive(false);
         }
     }
