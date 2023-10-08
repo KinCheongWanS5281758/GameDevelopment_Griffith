@@ -22,13 +22,22 @@ public class PlayerInteraction : MonoBehaviour
         {
             HandleInteraction();
         }
+
+        // Check if the player is within the "PuzzlePiece" tag area
+        if (canInteract)
+        {
+            keyTexture.SetActive(true);
+        }
+        else
+        {
+            keyTexture.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.CompareTag("PuzzlePiece"))
         {
-            keyTexture.SetActive(true);
             canInteract = true;
         }
     }
@@ -37,7 +46,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (col.gameObject.CompareTag("PuzzlePiece"))
         {
-            keyTexture.SetActive(false);
             canInteract = false;
         }
     }
@@ -89,5 +97,4 @@ public class PlayerInteraction : MonoBehaviour
             piece.SetActive(true);
         }
     }
-
 }

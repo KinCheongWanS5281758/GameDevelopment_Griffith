@@ -11,6 +11,7 @@ TagManager:
   - IceCrystal
   - PatrolPoint
   - PuzzlePiece
+  - NPC
   layers:
   - Default
   - TransparentFX

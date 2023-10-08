@@ -5,6 +5,7 @@ public class AmmoPickup : MonoBehaviour
 {
 
 	public float rotateSpeed = 30.0f;
+	public AudioSource pickupSound;
 
 	// Update is called once per frame
 	void Update()
@@ -16,6 +17,11 @@ public class AmmoPickup : MonoBehaviour
 	{
 		if (col.gameObject.tag == "Player")
 		{
+			if (pickupSound != null)
+			{
+				pickupSound.Play();
+			}
+
 			col.gameObject.SendMessage("ApplyCoinPickup");
 			Destroy(gameObject);
 		}
