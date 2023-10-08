@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalScale.x
@@ -38,23 +38,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70483404
+      value: 0.99566495
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.70483404
+      value: 0.01631232
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.056647684
+      value: 0.09105365
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.056647684
+      value: 0.009720786
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
+      value: 1.76
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -117,6 +117,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6691403321197630092}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2319955903626166736}
   m_SourcePrefab: {fileID: 100100000, guid: e67ec89ce1ccc6b47a63a9a0ca73d586, type: 3}
 --- !u!1 &2220831727119595012 stripped
 GameObject:
@@ -4932,3 +4935,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 60
   levelName: MainWorld
+--- !u!65 &2319955903626166736
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2220831727119595012}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.24695374, y: 0.10982367, z: 0.18419097}
+  m_Center: {x: 0.0037267727, y: 0.024554886, z: 0.0056924135}

@@ -8433,6 +8433,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2127964143131146604, guid: 9441cb6f39b7321439a225274c099cd1, type: 3}
+      propertyPath: winText
+      value: 
+      objectReference: {fileID: 1159816805}
+    - target: {fileID: 2127964143131146604, guid: 9441cb6f39b7321439a225274c099cd1, type: 3}
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 2119884285}

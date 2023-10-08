@@ -9,6 +9,7 @@ public class fire_people : MonoBehaviour
     private Rigidbody _rigidbody;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI winText;
     public int fire;
 
     // spawn ice crystal
@@ -21,13 +22,13 @@ public class fire_people : MonoBehaviour
         if (fire >= 7 && !fireCrystalSpawned)
         {
             // Spawn the ice crystal at a specific position
-            Vector3 spawnPosition = new Vector3(342f, 20f, 258f);
+            Vector3 spawnPosition = new Vector3(202f, 30f, 277f);
             Instantiate(fireCrystalPrefab, spawnPosition, Quaternion.identity);
 
             // Mark the ice crystal as spawned
             fireCrystalSpawned = true;
 
-            scoreText.text = "I see your potential. Please, use this crystal to save our world.";
+            winText.text = "I see your potential. Please, use this crystal to save our world.";
         }
     }
 
